@@ -51,7 +51,6 @@ export class PipelineRunner {
     public async RunYamlPipeline(webApi: azdev.WebApi): Promise<any> {
         let projectName = UrlParser.GetProjectName(this.taskParameters.azureDevopsProjectUrl);
         let pipelineName = this.taskParameters.azurePipelineName;
-        let pipelineBranch = this.taskParameters.azurePipelineBranch;
         let buildApi = await webApi.getBuildApi();
 
         // Get matching build definitions for the given project and pipeline name
@@ -71,7 +70,7 @@ export class PipelineRunner {
         // Fetch repository details from build definition
         let repositoryId = buildDefinition.repository.id.trim();
         let repositoryType = buildDefinition.repository.type.trim();
-        let sourceBranch = pipelineBranch;
+        let sourceBranch = null;
         let sourceVersion = null;
 
         // If definition is linked to existing github repo, pass github source branch and source version to build
@@ -90,7 +89,7 @@ export class PipelineRunner {
             project: {
                 id: buildDefinition.project.id
             },
-            sourceBranch: sourceBranch;
+            sourceBranch: this.taskParameters.azurePipelineBranch,
             sourceVersion: sourceVersion,
             reason: BuildInterfaces.BuildReason.Triggered,
             parameters: this.taskParameters.azurePipelineVariables
