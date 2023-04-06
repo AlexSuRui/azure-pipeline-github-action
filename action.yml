@@ -1,4 +1,4 @@
-name: 'Azure Pipelines Action with Result Check (test specified branch)' 
+name: 'Azure Pipelines Action with Result Check With Branch' 
 description: 'Trigger a run in Azure pipelines' 
 inputs:
   azure-devops-project-url:
@@ -6,7 +6,10 @@ inputs:
     required: true 
   azure-pipeline-name:
     description: 'Name of the Azure Pipline to be triggered' 
-    required: true 
+    required: true
+  azure-pipeline-branch-source:
+    description: 'Source branch of the Azure Pipline to be triggered' 
+    required: false
   azure-pipeline-variables: 
     description: 'Set/Overwrite pipeline variables' 
     required: false
